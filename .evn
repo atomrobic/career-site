@@ -1,5 +1,0 @@
-export DB_NAME="defaultdb"
-export DB_USER="avnadmin"
-export DB_PASSWORD="your_actual_password"
-export DB_HOST="jobsdb-akhilappuyeroor-3ae3.k.aivencloud.com"
-export DB_PORT="11076"
