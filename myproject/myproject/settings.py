@@ -26,11 +26,7 @@ SECRET_KEY = 'django-insecure-rws(=u#_7xpdynb)6b3^gnrl65#b(fu9sf!t0dq#gcshm(beqq
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://seacareerjob.netlify.app/',
-                   '127.0.0.1',
-                       "http://localhost:4000",  # React frontend
-
-                 ]
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'localhost:4000']
 
 
 AUTH_USER_MODEL = 'jobsite.CustomUser'
