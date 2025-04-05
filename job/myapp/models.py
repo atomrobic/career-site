@@ -4,6 +4,12 @@ from pytesseract import image_to_string
 from PIL import Image  # For image processing
 import os
 
+import random
+from django.contrib.auth.models import User
+from django.db import models
+from django.utils.timezone import now
+from datetime import timedelta
+
 class CustomUser(AbstractUser):
     ADMIN = "admin"
     COMPANY_STAFF = "company_staff"
@@ -95,3 +101,21 @@ class Job(models.Model):
         return "No image uploaded or no text detected."
     def __str__(self):
         return f"{self.title} at {self.company.name}"
+
+
+
+from django.conf import settings
+from django.db import models
+from django.utils.timezone import now
+from datetime import timedelta
+
+class EmailOTP(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    otp_code = models.CharField(max_length=6)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def is_valid(self):
+        return now() < self.created_at + timedelta(minutes=5)  # OTP expires in 5 minutes
+
+    def __str__(self):
+        return f"OTP for {self.user.email}"

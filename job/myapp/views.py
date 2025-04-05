@@ -491,20 +491,44 @@ def register(request):
 @permission_classes([AllowAny])
 def login(request):
     """
-    Authenticate a user and return JWT tokens.
+    Authenticate a user using email and return JWT tokens.
     """
-    username = request.data.get('username')
+    email = request.data.get('email')
     password = request.data.get('password')
-    user = authenticate(username=username, password=password)
-    if not user:
-        return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
-    refresh = RefreshToken.for_user(user)
-    return Response({
-        'user': CustomUserSerializer(user).data,
-        'refresh': str(refresh),
-        'access': str(refresh.access_token),
-    })
-
+    
+    try:
+        # Get user by email
+        user = CustomUser.objects.get(email=email)
+        # Authenticate user
+        user = authenticate(username=user.username, password=password)
+        
+        if not user:
+            return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+        
+        # Check if email is verified
+        if not user.is_active:
+            # Generate and send new OTP
+            otp_code = str(random.randint(100000, 999999))
+            EmailOTP.objects.create(user=user, otp_code=otp_code)
+            send_email_otp(user.email, otp_code)
+            
+            return Response({
+                'error': 'Email not verified',
+                'message': 'Please verify your email. A new OTP has been sent.',
+                'require_verification': True,
+                'email': user.email
+            }, status=status.HTTP_403_FORBIDDEN)
+        
+        # If email is verified, proceed with login
+        refresh = RefreshToken.for_user(user)
+        return Response({
+            'user': CustomUserSerializer(user).data,
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+        })
+        
+    except CustomUser.DoesNotExist:
+        return Response({'error': 'No user found with this email'}, status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -803,35 +827,63 @@ def job_detail(request, pk):
     
     
     
+from django.contrib.auth import logout
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
-import pytesseract
-from PIL import Image
+from rest_framework.permissions import IsAuthenticated
 
-from rest_framework.views import APIView
+class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]  # Ensure only logged-in users can log out
+
+    def post(self, request):
+        logout(request)
+        return Response({"message": "Logged out successfully"}, status=200)
+
+
+from django.core.mail import send_mail
+from django.conf import settings
+from django.contrib.auth import get_user_model
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework import status
-import pytesseract
-from PIL import Image
+from .models import EmailOTP
+import random
 
-class JobListCreateView(APIView):
-    def get(self, request):
-        # List jobs logic
-        return Response({"message": "List of jobs"}, status=status.HTTP_200_OK)
-    
-    def post(self, request):
-        # Create job logic
-        return Response({"message": "Job created"}, status=status.HTTP_201_CREATED)
+User = get_user_model()  # Get the correct user model
 
-class ExtractTextView(APIView):
-    def post(self, request):
-        if 'file' not in request.FILES:
-            return Response({"error": "No file provided"}, status=status.HTTP_400_BAD_REQUEST)
-        
-        try:
-            img = Image.open(request.FILES['file'])
-            text = pytesseract.image_to_string(img)
-            return Response({"text": text}, status=status.HTTP_200_OK)
-        except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+def send_email_otp(email, otp_code):
+    subject = "Your OTP Code"
+    message = f"Your OTP code is {otp_code}. It is valid for 5 minutes."
+    send_mail(subject, message, settings.EMAIL_HOST_USER, [email])
+
+@api_view(["POST"])
+def send_email_verification(request):
+    email = request.data.get("email")
+
+    try:
+        user = User.objects.get(email=email)
+    except User.DoesNotExist:
+        return Response({"error": "User not found"}, status=404)
+
+    otp_code = str(random.randint(100000, 999999))
+    EmailOTP.objects.create(user=user, otp_code=otp_code)
+
+    send_email_otp(email, otp_code)  # Send OTP via email
+    return Response({"message": "OTP sent successfully"}, status=200)
+
+@api_view(["POST"])
+def verify_email_otp(request):
+    email = request.data.get("email")
+    otp_code = request.data.get("otp")
+
+    try:
+        user = User.objects.get(email=email)
+        otp_record = EmailOTP.objects.filter(user=user, otp_code=otp_code).last()
+
+        if otp_record and otp_record.is_valid():
+            otp_record.delete()  # Remove OTP after verification
+            return Response({"message": "Email verified successfully"}, status=200)
+        else:
+            return Response({"error": "Invalid or expired OTP"}, status=400)
+
+    except User.DoesNotExist:
+        return Response({"error": "User not found"}, status=404)

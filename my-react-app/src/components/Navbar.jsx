@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Bell, User, Menu, X } from 'lucide-react';
+import axios from 'axios';
 
 const Navbar = () => {
   const navigate = useNavigate(); // Navigation hook
@@ -9,18 +10,87 @@ const Navbar = () => {
   const [activeCategory, setActiveCategory] = useState(null);
 
   // Define categories
+  // Add handleAdminRedirect function after useState declarations
+  const handleAdminRedirect = () => {
+    if (isAuthenticated) {
+      navigate('/AdminDashboard');
+    } else {
+      navigate('/login');
+    }
+  };
+
+  // Update the categories array
   const categories = [
-    { id: 1, name: 'Home', path: '/' },
+    { id: 1, name: 'Home', path: '/Home' },
     { id: 2, name: 'About', path: '/about' },
     { id: 3, name: 'Contact', path: '/contact' },
     { id: 4, name: 'Profile', path: '/profile' },
+    { 
+      id: 5, 
+      name: 'Admin Dashboard', 
+      path: '/AdminDashboard',
+      onClick: handleAdminRedirect 
+    },
   ];
 
+  // Update the Link component in the navigation
+  <div className="hidden md:ml-10 md:flex md:space-x-8">
+    {categories.map((category) => (
+      <Link
+        key={category.id}
+        to={category.path}
+        className={`flex items-center px-3 py-2 text-sm font-medium rounded-full transition-all ${
+          activeCategory === category.id
+            ? category.path === '/AdminDashboard'
+              ? 'bg-violet-700 text-white shadow-lg'
+              : 'bg-blue-700 text-white shadow-lg'
+            : category.path === '/AdminDashboard'
+              ? 'text-violet-300 hover:bg-violet-800 hover:text-white'
+              : 'text-gray-300 hover:bg-blue-800 hover:text-white'
+        }`}
+        onClick={(e) => {
+          if (category.onClick) {
+            e.preventDefault();
+            category.onClick();
+          }
+          setActiveCategory(category.id);
+        }}
+      >
+        {category.name}
+      </Link>
+    ))}
+  </div>
   // Handle logout
-  const handleLogout = () => {
-    setIsAuthenticated(false); // Simulate logout
-    navigate('/login'); // Redirect to login page
+  const handleLogout = async () => {
+    try {
+      const token = localStorage.getItem('access_token');
+      await axios.post('http://127.0.0.1:8000/api/logout/', null, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      
+      // Clear all auth-related items from localStorage
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('refresh_token');
+      localStorage.removeItem('isAuthenticated');
+      
+      setIsAuthenticated(false);
+      navigate('/');
+    } catch (error) {
+      console.error('Logout failed:', error);
+      // Still clear tokens and redirect even if API call fails
+      localStorage.clear();
+      setIsAuthenticated(false);
+      navigate('/');
+    }
   };
+
+  // Add useEffect to check authentication status on component mount
+  useEffect(() => {
+    const token = localStorage.getItem('access_token');
+    setIsAuthenticated(!!token);
+  }, []);
 
   return (
     <nav className="relative bg-gradient-to-r from-blue-900 to-indigo-900 shadow-lg">
@@ -63,7 +133,7 @@ const Navbar = () => {
                 >
                   <User size={18} className="text-white" />
                 </button>
-
+              
                 {/* Logout Button */}
                 <button
                   onClick={handleLogout}

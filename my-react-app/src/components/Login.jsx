@@ -5,7 +5,7 @@ const JobSeaLogin = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     username: "",
-    email: "",
+    email: "",    // Add email to login form
     phone_number: "",
     password1: "",
     password2: "",
@@ -46,7 +46,11 @@ const JobSeaLogin = () => {
 
     const url = isLogin ? "/api/login/" : "/api/register/";
     const requestData = isLogin
-      ? { username: formData.username, password: formData.password1 }
+      ? { 
+          username: formData.username, 
+          email: formData.email,     // Include email in login request
+          password: formData.password1 
+        }
       : formData;
 
     try {
@@ -206,7 +210,23 @@ const JobSeaLogin = () => {
               </div>
             </div>
 
-            {/* Email Field (Optional for Login) */}
+            {/* Email Field (Always show) */}
+            <div className="mb-5">
+              <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+              <div className="relative">
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                  placeholder="your.email@example.com"
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Rest of the form fields */}
             {!isLogin && (
               <div className="mb-5">
                 <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
@@ -333,7 +353,7 @@ const JobSeaLogin = () => {
                   Processing...
                 </span>
               ) : isLogin ? (
-                "Sign In"
+                "login"
               ) : (
                 "Create Account"
               )}

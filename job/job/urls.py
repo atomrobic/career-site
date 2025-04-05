@@ -39,7 +39,7 @@ from django.contrib import admin
 
 from django.urls import path
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from myapp.views import JobListCreateView, ExtractTextView
+
 
 from myapp.views import (
     register,
@@ -50,7 +50,7 @@ from myapp.views import (
     company_detail,
     job_category_list,
     job_list,
-    job_detail,
+    job_detail,LogoutView,send_email_verification, verify_email_otp
 )
 
 urlpatterns = [
@@ -78,10 +78,10 @@ urlpatterns = [
     # Job Endpoints
     path('api/jobs/', job_list, name='job_list'),
     path('api/jobs/<int:pk>/', job_detail, name='job_detail'),
-
+    path('logout/', LogoutView.as_view(), name='logout'),
+    path("auth/send-email-otp/", send_email_verification, name="send_email_otp"),
+    path("auth/verify-email-otp/", verify_email_otp, name="verify_email_otp"),
     # Basic job CRUD
-    path('jobs/', JobListCreateView.as_view(), name='job-list-create'),
     
     # OCR endpoint
-    path('extract-text/', ExtractTextView.as_view(), name='extract-text'),
 ]
