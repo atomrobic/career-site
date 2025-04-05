@@ -26,7 +26,10 @@ SECRET_KEY = 'django-insecure-rws(=u#_7xpdynb)6b3^gnrl65#b(fu9sf!t0dq#gcshm(beqq
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://seacareerjob.netlify.app/',
+                   '127.0.0.1',
+                 ]
+
 
 AUTH_USER_MODEL = 'jobsite.CustomUser'
 
@@ -39,7 +42,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'jobsite'
+
+    # Third-party apps
+    'rest_framework',
+    'corsheaders',
+
+    # Your apps
+    'jobsite',
 ]
 
 MIDDLEWARE = [
@@ -50,6 +59,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+        'corsheaders.middleware.CorsMiddleware',  # 👈 must be on top
+
 ]
 
 ROOT_URLCONF = 'myproject.urls'
@@ -83,6 +94,19 @@ DATABASES = {
     }
 }
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:4000",  # React frontend dev server
+    "https://seacareerjob.netlify.app",  # Deployed frontend
+]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ]
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
