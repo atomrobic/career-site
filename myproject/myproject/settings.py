@@ -28,6 +28,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['https://seacareerjob.netlify.app/',
                    '127.0.0.1',
+                       "http://localhost:4000",  # React frontend
+
                  ]
 
 
