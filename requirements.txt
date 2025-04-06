@@ -3,3 +3,4 @@ numpy
 pandas
 tensorflow-intel
 torch
+gunicorn>=20.0.0
