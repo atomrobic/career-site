@@ -1,11 +1,13 @@
 services:
   - type: web
-    name: job  # Changed to match your project name
+    name: jobsite-backend
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn job.wsgi:application  # Updated to match your Django project structure
+    startCommand: cd backend/myproject && gunicorn myproject.wsgi:application
     envVars:
       - key: PYTHON_VERSION
-        value: 3.9.0
-      - key: DEBUG
-        value: False
+        value: 3.12.4
+      - key: DJANGO_SETTINGS_MODULE
+        value: myproject.settings
+      - key: WSGI_APPLICATION
+        value: myproject.wsgi.application
