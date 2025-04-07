@@ -3,5 +3,5 @@ numpy
 pandas
 tensorflow-intel
 torch
-gunicorn
+gunicorn==23.0.0
 
