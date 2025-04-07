@@ -7,5 +7,7 @@ gunicorn==23.0.0
 djangorestframework
 django-cors-headers
 pytesseract
+rest_framework_simplejwt
+
 
 
