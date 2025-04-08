@@ -41,7 +41,7 @@ urlpatterns = [
 
     # User Authentication and Registration
     path('api/register/', register, name='register'),
-    path('', login, name='login'),
+    path('api/login/', LoginView.as_view(), name='login'),
     path('api/refresh-token/', refresh_token, name='refresh_token'),
 
     # Profile Management
@@ -55,7 +55,7 @@ urlpatterns = [
     path('api/job-categories/', job_category_list, name='job_category_list'),
 
     # Job Endpoints
-    path('api/jobs/', job_list, name='job_list'),
+    path('', job_list, name='job_list'),
     path('api/jobs/<int:pk>/', job_detail, name='job_detail'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path("auth/send-email-otp/", send_email_verification, name="send_email_otp"),
