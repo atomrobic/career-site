@@ -41,7 +41,7 @@ urlpatterns = [
 
     # User Authentication and Registration
     path('api/register/', register, name='register'),
-    path('/', login, name='login'),
+    path('', login, name='login'),
     path('api/refresh-token/', refresh_token, name='refresh_token'),
 
     # Profile Management
