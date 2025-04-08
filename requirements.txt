@@ -1,4 +1,3 @@
-git init
 absl-py==2.2.2
 asgiref==3.8.1
 astunparse==1.6.3
