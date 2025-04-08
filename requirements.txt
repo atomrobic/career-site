@@ -1,12 +1,7 @@
-django
-numpy
-pandas
-tensorflow-intel
-torch
-gunicorn==23.0.0
-djangorestframework
-django-cors-headers
-pytesseract
-djangorestframework-simplejwt
-
-
+git init
+echo "myenv/" >> .gitignore  # prevent myenv from being tracked
+git add .
+git commit -m "Initial clean commit without myenv"
+git remote add origin https://github.com/atomrobic/career-site.git
+git checkout -b myapps
+git push -u origin myapps
