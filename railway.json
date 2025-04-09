@@ -1,7 +1,7 @@
 {
     "build": {
       "builder": "NIXPACKS",
-      "buildCommand": "pip install -r requirements.txt && python backend/myproject/manage.py collectstatic --noinput"
+      "buildCommand": "pip install -r requirements.txt --no-cache-dir && cd backend/myproject && python manage.py collectstatic --noinput"
     },
     "deploy": {
       "startCommand": "cd backend/myproject && gunicorn myproject.wsgi:application --bind 0.0.0.0:$PORT",
@@ -13,6 +13,7 @@
       "DJANGO_SETTINGS_MODULE": "myproject.settings",
       "ALLOWED_HOSTS": ".railway.app",
       "DEBUG": "False",
-      "PYTHONPATH": "/backend/myproject"
+      "PYTHONPATH": "backend/myproject",
+      "STATIC_ROOT": "staticfiles"
     }
 }
