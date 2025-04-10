@@ -6,4 +6,6 @@ djangorestframework_simplejwt
 filelock
 gunicorn 
 pytesseract
+guniorn
+whitenoise
 
