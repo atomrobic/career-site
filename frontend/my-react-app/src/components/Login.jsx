@@ -44,7 +44,7 @@ const JobSeaLogin = () => {
       return;
     }
 
-    const url = isLogin ? "/api/login/" : "/api/register/";
+    const url = isLogin ? "/api/api/login/" : "/api/api/register/";
     const requestData = isLogin
       ? { 
           username: formData.username, 
