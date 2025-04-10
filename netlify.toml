@@ -1,18 +1,13 @@
 [build]
-  base = "my-react-app"
-  publish = "my-react-app/dist"
-  command = "cd my-react-app && npm install && npm run build"
+  command = "npm run build"
+  publish = "dist"
 
-[build.environment]
-  NODE_VERSION = "18"
-  NPM_VERSION = "9"
+[dev]
+  command = "npm run dev"
+  port = 3000
+  targetPort = 8000
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-
-[dev]
-  command = "npm run dev"
-  port = 5173
-  publish = "my-react-app/dist"
