@@ -102,7 +102,7 @@ urlpatterns = [
 
     # Custom login and register
     path('api/register/', register, name='register'),
-    path('', login, name='login'),
+    path('api/login/', login, name='login'),
     path('api/refresh-token/', refresh_token, name='refresh_token'),
     path('api/profile/', profile, name='profile'),
 
