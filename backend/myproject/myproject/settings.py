@@ -32,6 +32,24 @@ ALLOWED_HOSTS = ['*']
 AUTH_USER_MODEL = 'jobsite.CustomUser'
 
 # Application definition
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
+
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "authorization",
+    "content-type",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -50,6 +68,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+        'corsheaders.middleware.CorsMiddleware',   # 👈 must be first
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -57,7 +77,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-        'corsheaders.middleware.CorsMiddleware',  # 👈 must be on top
 
 ]
 
