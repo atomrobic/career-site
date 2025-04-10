@@ -67,6 +67,7 @@
 from django.contrib import admin
 from django.urls import path
 from django.http import JsonResponse
+from django.conf.urls.static import static
 
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from jobsite.views import (
@@ -118,4 +119,4 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('auth/send-email-otp/', send_email_verification, name='send_email_otp'),
     path('auth/verify-email-otp/', verify_email_otp, name='verify_email_otp'),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
