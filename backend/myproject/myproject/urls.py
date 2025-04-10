@@ -94,7 +94,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # Root route - safe for GET
-    path('', home_view, name='home'),
 
     # JWT Authentication
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
@@ -102,8 +101,7 @@ urlpatterns = [
 
     # Custom login and register
     path('api/register/', register, name='register'),
-    path('api/login/', login, name='login'),  # 👈 moved login from '' to '/api/login/'
-
+    path('', login, name='login'),
     path('api/refresh-token/', refresh_token, name='refresh_token'),
     path('api/profile/', profile, name='profile'),
 
