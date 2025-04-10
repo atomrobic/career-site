@@ -105,6 +105,7 @@ urlpatterns = [
     path('api/login/', login, name='login'),
     path('api/refresh-token/', refresh_token, name='refresh_token'),
     path('api/profile/', profile, name='profile'),
+    path('', home_view, name='home'),  # Add this line for root URL
 
     # Company
     path('api/companies/', company_list, name='company_list'),
