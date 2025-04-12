@@ -2,7 +2,7 @@
 nixPkgs = ["python3", "gcc", "pkg-config", "libjpeg", "zlib"]
 
 [phases.install]
-cmds = ["python -m venv /opt/venv && . /opt/venv/bin/activate && pip install -r requirements.txt"]
+cmds = ["pip install -r requirements.txt"]
 
 [start]
 cmd = "gunicorn myproject.wsgi:application --bind 0.0.0.0:$PORT"
