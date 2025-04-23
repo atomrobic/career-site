@@ -1,0 +1,17 @@
+{
+  "name": "job-portal",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "cd frontend/my-react-app && npm run dev",
+    "build": "cd frontend/my-react-app && npm install && npm run build",
+    "install-client": "cd frontend/my-react-app && npm install",
+    "install-all": "npm install && npm run install-client"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}
