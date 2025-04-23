@@ -1,0 +1,23 @@
+# Environment and Python
+.env
+__pycache__/
+*.py[cod]
+*.so
+.Python
+env/
+venv/
+myenv/     # <-- Add this line to ignore your virtual environment folder
+
+# Django
+*.log
+*.pot
+*.pyc
+db.sqlite3
+media/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+myenv/
