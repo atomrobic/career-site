@@ -2,11 +2,12 @@
   "name": "job-portal",
   "version": "1.0.0",
   "private": true,
-  "scripts": {
-    "start": "cd frontend/my-react-app && npm run dev",
-    "build": "cd frontend/my-react-app && npm install && npm run build",
-    "install-client": "cd frontend/my-react-app && npm install",
-    "install-all": "npm install && npm run install-client"
+ "scripts": {
+  "start": "cd frontend/my-react-app && npm run dev",
+  "build": "cd frontend/my-react-app && npm install && chmod +x node_modules/.bin/vite && npm run build",
+  "install-client": "cd frontend/my-react-app && npm install",
+  "install-all": "npm install && npm run install-client"
+
   },
   "dependencies": {
     "react-router": "^7.5.1",
