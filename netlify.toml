@@ -1,7 +1,7 @@
 [build]
   base = "frontend/my-react-app"
   command = "npm run build"
-  publish = "dist"
+  publish = "frontend/my-react-app/dist"
 
 [dev]
   command = "npm run dev"
