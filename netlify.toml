@@ -1,12 +1,18 @@
 [build]
-  publish = "frontend/my-react-app/dist"
-  command = "cd frontend/my-react-app && npm install && npm run build"
+  base = "frontend/my-react-app"  # Sets the root for the build
+  command = "npm install && npm run build"
+  publish = "dist"  # Vite/React default output dir
 
 [build.environment]
-  NODE_VERSION = "18"
-  NPM_VERSION = "9"
+  NODE_VERSION = "20"  # Required for Vite 5+
+  NPM_VERSION = "10"   # Matches Node 20's default npm
 
+# For SPAs (React/Vue): Handle client-side routing
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
+# Optional: Cache node_modules for faster builds
+[build.processing]
+  skip_processing = true
