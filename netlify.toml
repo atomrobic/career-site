@@ -1,10 +1,10 @@
 [build]
   base = "frontend/my-react-app"
   command = "npm run build"
-  publish = "build"  # or "dist" if your build output folder is named dist
+  publish = "dist"
 
 [dev]
-  command = "npm start"
+  command = "npm run dev"
   port = 3000
   targetPort = 3000
 
@@ -12,3 +12,4 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
