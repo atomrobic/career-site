@@ -6,6 +6,8 @@ __pycache__/
 .Python
 env/
 venv/
+node_modules/
+
 myenv/     # <-- Add this line to ignore your virtual environment folder
 
 # Django
