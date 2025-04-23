@@ -1,15 +1,13 @@
 [build]
   base = "frontend/my-react-app"
-  command = "npm run build"
-  publish = "frontend/my-react-app/dist"
+  publish = "dist"
+  command = "npm install && npm run build"
 
-[dev]
-  command = "npm run dev"
-  port = 3000
-  targetPort = 3000
+[build.environment]
+  NODE_VERSION = "18"
+  NPM_VERSION = "9"
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-
