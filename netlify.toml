@@ -1,0 +1,12 @@
+[build]
+  publish = "frontend/my-react-app/dist"
+  command = "cd frontend/my-react-app && npm install && npm run build"
+
+[build.environment]
+  NODE_VERSION = "18"
+  NPM_VERSION = "9"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
