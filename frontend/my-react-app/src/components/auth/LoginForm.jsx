@@ -92,7 +92,7 @@ const LoginForm = () => {
     setSuccess("");
   
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/api/login/", {
+      const response = await fetch("https://career-backend-production.up.railway.app/api/api/login/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
