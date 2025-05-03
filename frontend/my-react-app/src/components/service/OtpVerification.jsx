@@ -96,7 +96,7 @@ const OtpVerification = () => {
     setError("");
 
     try {
-      const response = await fetch(`http://localhost:8000/api/verify-otp/`, {
+      const response = await fetch(`https://career-backend-production.up.railway.app/api/verify-otp/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, otp }),
