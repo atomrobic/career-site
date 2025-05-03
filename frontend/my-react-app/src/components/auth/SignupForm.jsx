@@ -120,7 +120,7 @@ const SignupForm = () => {
     setError("");
     
     try {
-      const response = await fetch(`http://localhost:8000/api/api/register/`, {
+      const response = await fetch(`https://career-backend-production.up.railway.app/api/api/register/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
